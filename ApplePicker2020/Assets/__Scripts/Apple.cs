@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Apple : MonoBehaviour
 {
-    public static float bottomY = -20;
+    public static float bottomY = -15;
 
     // Start is called before the first frame update
     void Start()
