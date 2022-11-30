@@ -1,13 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Basket : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [Header("Set Dynamically")]
+    public Text scoreUI;//reference to the text in the scene
+
+    private int score;
+    private void Start()
     {
-        
+        //find the reference to the ScoreCounter game object that we have in the canvas
+        GameObject scoreGO = GameObject.Find("ScoreCounter");
+        // Get the text component from that GO
+        scoreUI = scoreGO.GetComponent<Text>();
+        //set the starting points at 0
+        scoreUI.text = "0";
+
+
     }
 
     // Update is called once per frame
@@ -31,11 +42,22 @@ public class Basket : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        //find the object that hit this basket
         GameObject collidedWith = collision.gameObject;
         if (collidedWith.tag == "Apple") 
         {
             Destroy(collidedWith);
+            //parse the text of the score UI into an int
+            score = int.Parse(scoreUI.text);
+            //add points for catching the apple!
+            score += 100;
+            //convert the score back to a string and display it!
+            scoreUI.text = score.ToString();
+
+            if (score > HighScore.score) 
+            {
+                HighScore.score = score;
+            }
         }
     }
-
 }
